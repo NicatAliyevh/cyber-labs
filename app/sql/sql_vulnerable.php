@@ -1,9 +1,12 @@
 <?php
+require_once __DIR__ . '/load_env.php';
+loadEnv(__DIR__ . '/.env');
+
 // DB config
-$host = 'localhost';
-$dbname = 'sql_lab';
-$user = 'root'; 
-$pass = 'admin123';     
+$host = $_ENV['DB_HOST'];
+$dbname = $_ENV['DB_NAME'];
+$user = $_ENV['DB_USER'];
+$pass = $_ENV['DB_PASS'];    
 
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);

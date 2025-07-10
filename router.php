@@ -8,18 +8,20 @@ error_reporting(E_ALL);
 if (php_sapi_name() === 'cli-server') {
     $url = parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH);
     $file = __DIR__ . $url;
-    if (is_file($file)) {
-        return false;
-    }
+
+    $ext = strtolower(pathinfo($file, PATHINFO_EXTENSION));
+if (is_file($file) && in_array($ext, ['php', 'css', 'js', 'png', 'jpg', 'jpeg', 'gif', 'svg'])) {
+    return false; // Let PHP's built-in server handle these static files directly
 }
+
+}
+
 
 // Basic routing logic
 $request = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 
-$uploadUrlPrefix = '/file_upload/uploads/';
-
 // Handle requests to /file_upload/uploads/*
-$uploadUrlPrefix = '/file_upload/uploads/';
+$uploadUrlPrefix = '/app/file_upload/uploads/';
 
 
 if (str_starts_with($request, $uploadUrlPrefix)) {
@@ -33,22 +35,30 @@ if (str_starts_with($request, $uploadUrlPrefix)) {
 
     if ($requestedFileNorm !== false && is_file($requestedFile) && str_starts_with($requestedFileNorm, $baseDirNorm)) {
         $ext = strtolower(pathinfo($requestedFile, PATHINFO_EXTENSION));
+
+        // ✅ Let only .php go to the built-in server for execution
         if ($ext === 'php') {
-            // Let PHP built-in server handle PHP files (execute them)
             return false;
-        } else {
-            // Serve static files manually
-            $mimeType = mime_content_type($requestedFile);
-            header('Content-Type: ' . $mimeType);
-            header('Content-Length: ' . filesize($requestedFile));
-            readfile($requestedFile);
+        }
+
+        // ✅ Manually execute allowed script-like extensions
+        if (in_array($ext, ['phtml'])) {
+            include $requestedFile;
             exit;
         }
+
+        // ✅ Serve safe static files
+        $mimeType = mime_content_type($requestedFile);
+        header('Content-Type: ' . $mimeType);
+        header('Content-Length: ' . filesize($requestedFile));
+        readfile($requestedFile);
+        exit;
     } else {
         http_response_code(404);
         echo "File not found.";
         exit;
     }
+
 }
 
 
@@ -121,6 +131,12 @@ switch ($request) {
         break;
     case '/file_upload/easy':
         require __DIR__ . '/app/file_upload/file_upload_easy.php';
+        break;
+    case '/file_upload/medium':
+        require __DIR__ . '/app/file_upload/file_upload_medium.php';
+        break;
+    case '/file_upload/impossible':
+        require __DIR__ . '/app/file_upload/file_upload_impossible.php';
         break;
     default:
         http_response_code(404);

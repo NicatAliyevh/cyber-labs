@@ -8,7 +8,7 @@ $title = "Welcome to SQL Injection Labs";
 <head>
     <meta charset="UTF-8" />
     <title><?= htmlspecialchars($title) ?></title>
-    <link rel="stylesheet" href="../../app/style/style.css">
+    <link rel="stylesheet" href="/app/style/style.css">
 </head>
 <body>
     <div class="container">

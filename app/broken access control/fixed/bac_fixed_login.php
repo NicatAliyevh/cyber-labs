@@ -1,11 +1,8 @@
 <?php
 session_start();
-//session_unset();
-//session_destroy();
-//session_start(); 
 session_unset();
 session_destroy();
-session_start(); // restart a fresh session
+session_start();
 
 $users = [
     'admin' => 'admin123!+hard',
@@ -32,7 +29,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 ?>
 
 
-<form method="GET" style="max-width: 300px; margin: 50px auto; padding: 20px; border: 1px solid #ccc; border-radius: 10px; background-color: #f9f9f9;">
+<form method="POST" style="max-width: 300px; margin: 50px auto; padding: 20px; border: 1px solid #ccc; border-radius: 10px; background-color: #f9f9f9;">
     <h2 style="text-align: center; font-family: Arial, sans-serif;">Login</h2>
     
     <input 

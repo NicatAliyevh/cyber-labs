@@ -20,4 +20,4 @@ $username = htmlspecialchars($_SESSION['username']);
 <p>✅ Access granted for: <strong><?= $username ?></strong></p>
 <p><strong>Flag:</strong> login!!!!hard</p>
 <p>This is the <strong>Fixed BAC version</strong> — only the actual admin can access this page.</p>
-<a href="/bac/fixed/logout">Logout</a>
+<a href="/bac/fixed/login">Logout</a>

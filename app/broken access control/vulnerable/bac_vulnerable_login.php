@@ -1,8 +1,5 @@
 <?php
-session_start();
-//session_unset();
-//session_destroy();
-//session_start(); 
+session_start(); 
 session_unset();
 session_destroy();
 session_start(); // restart a fresh session
@@ -32,7 +29,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 ?>
 
 
-<form method="GET" style="max-width: 300px; margin: 50px auto; padding: 20px; border: 1px solid #ccc; border-radius: 10px; background-color: #f9f9f9;">
+<form method="POST" style="max-width: 300px; margin: 50px auto; padding: 20px; border: 1px solid #ccc; border-radius: 10px; background-color: #f9f9f9;">
     <h2 style="text-align: center; font-family: Arial, sans-serif;">Login</h2>
     
     <input 
@@ -63,6 +60,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         setTimeout(() => {
             const errorEl = document.getElementById('login-error');
             if (errorEl) errorEl.style.display = 'none';
-        }, 3000); // 🔥 Hide after 3 seconds
+        }, 3000); 
     </script>
 <?php endif; ?>
